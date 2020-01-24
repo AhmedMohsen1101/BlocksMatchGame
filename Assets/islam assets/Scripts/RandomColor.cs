@@ -13,11 +13,11 @@ public class RandomColor : MonoBehaviour
         new Color(0, 0, 255),
     };
 
-
     private SpriteRenderer spriteRenderer;
     void Start()
     {
         spriteRenderer = this.gameObject.GetComponent<SpriteRenderer>();
+        //spriteRenderer.rendererPriority = 1;
         SetBlockColor();
     }
     public void SetBlockColor ()
@@ -27,7 +27,5 @@ public class RandomColor : MonoBehaviour
             int colorNumber = Random.Range(0, 3);
             spriteRenderer.color = colors[colorNumber];
         }
-
-
     }
 }
