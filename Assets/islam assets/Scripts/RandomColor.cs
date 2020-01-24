@@ -2,21 +2,31 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class RandomColor : MonoBehaviour
 {
-    public Sprite[] imageList = new Sprite[4];
-    private SpriteRenderer sr;
+    private Color[] colors =  
+    {
+        new Color(255, 0, 0),
+        new Color(255, 255, 0),
+        new Color(0, 255, 0),
+        new Color(0, 0, 255),
+    };
+
+
+    private SpriteRenderer spriteRenderer;
     void Start()
     {
-        sr = GetComponent<SpriteRenderer>();
+        spriteRenderer = this.gameObject.GetComponent<SpriteRenderer>();
         SetBlockColor();
-
     }
     public void SetBlockColor ()
     {
-        int colorNumber;
-        colorNumber = Random.Range(0, 3);
-        sr.sprite = imageList[colorNumber ];
+        for (int i = 0; i < 4; i++)
+        {
+            int colorNumber = Random.Range(0, 3);
+            spriteRenderer.color = colors[colorNumber];
+        }
 
 
     }
