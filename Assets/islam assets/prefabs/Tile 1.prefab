@@ -10,14 +10,13 @@ GameObject:
   m_Component:
   - component: {fileID: 3734687990077083068}
   - component: {fileID: 3734687990077083071}
-  - component: {fileID: 2255313123188817373}
-  - component: {fileID: 8943172730455389317}
-  m_Layer: 9
-  m_Name: block
+  - component: {fileID: 6973705047134302740}
+  m_Layer: 0
+  m_Name: Tile 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &3734687990077083068
 Transform:
@@ -27,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3734687990077083070}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.15, y: -0.01, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -1}
   m_LocalScale: {x: 0.557, y: 0.557, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -70,9 +69,9 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 580238013
   m_SortingLayer: 4
-  m_SortingOrder: 2
+  m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 7b812e42b408e3d45858fdd1fb7a726d, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.08432066, g: 0.058873262, b: 0.1981132, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -82,7 +81,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!61 &2255313123188817373
+--- !u!61 &6973705047134302740
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -108,15 +107,3 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &8943172730455389317
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3734687990077083070}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 97fb334af115385439c94c3014cbc1d1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

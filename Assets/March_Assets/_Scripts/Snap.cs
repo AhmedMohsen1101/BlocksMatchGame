@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
+
 public class Snap : MonoBehaviour, ISnappable
 {
 
@@ -11,7 +11,7 @@ public class Snap : MonoBehaviour, ISnappable
         sprites = this.gameObject.GetComponentsInChildren<SpriteRenderer>();
         for (int i = 0; i < sprites.Length; i++)
         {
-            sprites[i].sortingOrder = 1;
+            sprites[i].sortingOrder = 2;
         }
         Debug.Log(sprites.Length);
     }
@@ -51,7 +51,7 @@ public class Snap : MonoBehaviour, ISnappable
     {
         for (int i = 0; i < sprites.Length; i++)
         {
-            sprites[i].sortingOrder = 1;
+            sprites[i].sortingOrder = 2;
         }
         this.gameObject.transform.localScale /= 0.75f;
     }
