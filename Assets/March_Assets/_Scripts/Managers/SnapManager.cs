@@ -5,6 +5,7 @@ using UnityEngine;
 public interface ISnappable
 {
 
+    void OnSnappingBegin();
     void OnSnapping();
     void OnSnapped();
     bool IsThisSnapZoneEmpty();
