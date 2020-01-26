@@ -17,7 +17,6 @@ public class RandomColor : MonoBehaviour
     void Start()
     {
         spriteRenderer = this.gameObject.GetComponent<SpriteRenderer>();
-        //spriteRenderer.rendererPriority = 1;
         SetBlockColor();
     }
     public void SetBlockColor ()

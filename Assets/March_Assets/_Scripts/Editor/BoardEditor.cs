@@ -12,9 +12,8 @@ public class BoardEditor : Editor
 
         if (GUILayout.Button("SetupBoard"))
         {
-            control.SetupBoard();
-            Debug.Log("Done!");
+            //control.SetupBoard(); 
+            Debug.Log("Please don't try this! Already Instantiated. and this is not your business!");
         }
-
     }
 }
