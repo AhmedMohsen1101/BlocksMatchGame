@@ -13,6 +13,7 @@ public class BlockManager : MonoBehaviour
     
     public bool AllEmpty()
     {
+        counter = 0;
         for (int i = 0; i < blocks.Length; i++)
         {
             if (blocks[i].isTheTileEmpty)
@@ -20,9 +21,10 @@ public class BlockManager : MonoBehaviour
                 counter++;
             }
         }
+        Debug.Log(counter);
         if (counter == blocks.Length)
         {
-            Debug.Log("AllEmpty");
+            Debug.Log(counter);
             return true;
         }
         return false;

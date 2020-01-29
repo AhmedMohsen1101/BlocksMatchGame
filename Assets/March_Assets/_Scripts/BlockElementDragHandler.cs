@@ -19,16 +19,23 @@ public class BlockElementDragHandler : MonoBehaviour, ISnappable
     #endregion
 
     public bool isTheTileEmpty;
+    private SpriteRenderer spriteRenderer;
     RaycastHit2D hit;
     LayerMask tileLayerMask;
-
+    private BlockManager blockManager;
 
     private void Start()
     {
         tileLayerMask = LayerMask.GetMask("Tile");
+        spriteRenderer = this.gameObject.GetComponent<SpriteRenderer>();
+        blockManager = this.gameObject.GetComponentInParent<BlockManager>();
+        spriteRenderer.sortingOrder = 2;
     }
 
-
+    private void FixedUpdate()
+    {
+        OnSnapping();
+    }
 
     /// <summary>
     /// Our solution is very simple in order to understand how we gonna solve the snappig problem will start off of
@@ -50,11 +57,10 @@ public class BlockElementDragHandler : MonoBehaviour, ISnappable
         
         theParent = transform.parent;
         transform.parent = null;
-
-        //TODO: fix this
         theParent.parent = transform;
 
         #endregion
+        OnSnappingBegin();
     }
     public virtual void OnMouseDrag()
     {
@@ -83,11 +89,12 @@ public class BlockElementDragHandler : MonoBehaviour, ISnappable
         //if all the blocks are ok and their opposite snapZones are empty so then will consider the 
         //dragged element as manager of the landing operation, and it will put himself in place first,
         //as he has became the temporary parent of his original parent.
-
+        OnSnapped();
         theParent.parent = null;
         transform.parent = theParent;
 
         #endregion
+       
     }
 
     #region Drag Controls Entity
@@ -105,7 +112,8 @@ public class BlockElementDragHandler : MonoBehaviour, ISnappable
 
     public void OnSnappingBegin()
     {
-        throw new System.NotImplementedException();
+        spriteRenderer.sortingOrder = 10;
+        ScaleUpDown(0.75f);
     }
 
     public void OnSnapping()
@@ -113,25 +121,32 @@ public class BlockElementDragHandler : MonoBehaviour, ISnappable
         CheckWithRaycast();
     }
 
+    public void OnSnapped()
+    {
+        ScaleUpDown(1f);
+        spriteRenderer.sortingOrder = 2;
+        if (blockManager.AllEmpty())
+        {
+            this.transform.position = hit.collider.transform.position;
+        }
+    }
     private void CheckWithRaycast()
     {
         hit = Physics2D.Raycast(this.transform.position, -this.transform.forward, 5f, tileLayerMask);
         if (hit)
         {
-            Debug.Log(this.gameObject.name);
+            //Debug.Log(hit.collider.name);
             isTheTileEmpty = true;
         }
         else
         {
+            //Debug.Log("Null");
             isTheTileEmpty = false;
         }
     }
-
-    public void OnSnapped()
-    {
-        throw new System.NotImplementedException();
-    }
-
     #endregion
-
+    private void ScaleUpDown(float value)
+    {
+        this.gameObject.transform.root.localScale = new Vector2(value, value);
+    }
 }
