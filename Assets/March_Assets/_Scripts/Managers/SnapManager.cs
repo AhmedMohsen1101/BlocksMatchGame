@@ -8,7 +8,6 @@ public interface ISnappable
     void OnSnappingBegin();
     void OnSnapping();
     void OnSnapped();
-    bool IsThisSnapZoneEmpty();
 
 }
 public class SnapManager : MonoBehaviour

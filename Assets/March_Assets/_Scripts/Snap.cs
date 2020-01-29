@@ -8,6 +8,7 @@ public class Snap : MonoBehaviour, ISnappable
     RaycastHit2D[] hits;
 
     private bool onSnapping = false;
+    private bool snapable;
     private void Start()
     {
         sprites = this.gameObject.GetComponentsInChildren<SpriteRenderer>();
@@ -20,15 +21,12 @@ public class Snap : MonoBehaviour, ISnappable
     }
     private void FixedUpdate()
     {
-        RaycastFromEveyBlock();
+
         if (onSnapping)
         {
+            RaycastFromEveyBlock();
             CheckRaycasts();
         }
-    }
-    public bool IsThisSnapZoneEmpty()
-    {
-        return false;
     }
 
     private void OnMouseDown()
@@ -50,13 +48,13 @@ public class Snap : MonoBehaviour, ISnappable
         {
             sprites[i].sortingOrder = 10;
         }
-        this.gameObject.transform.localScale *= 0.75f;
+        this.gameObject.transform.localScale = new Vector2(0.75f, 0.75f);
 
     }
     public void OnSnapping()
     {
         onSnapping = true;
-        MoveWithMousePoistion();
+        MoveWithMousePosition();
     }
     public void OnSnapped()
     {
@@ -64,11 +62,11 @@ public class Snap : MonoBehaviour, ISnappable
         {
             sprites[i].sortingOrder = 2;
         }
-        this.gameObject.transform.localScale /= 0.75f;
+        this.gameObject.transform.localScale = new Vector2(1, 1);
         onSnapping = false;
     }
 
-    private void MoveWithMousePoistion()
+    private void MoveWithMousePosition()
     {
         Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         this.transform.position = mousePosition;
@@ -89,11 +87,24 @@ public class Snap : MonoBehaviour, ISnappable
         {
             if (hits[i].collider.gameObject.tag != "Tile")
             {
-                //Counter++;
                 return false;
             }
+            else
+            {
+                Debug.Log("All tile are empty! u can span now");
+                return true;
+            }
         }
-        Debug.Log("All tile are empty! u can span now");
-        return true;
+        return false;
+    }
+
+    private void SnapObject()
+    {
+
+    }
+
+    private void UnsnapObject()
+    {
+
     }
 }

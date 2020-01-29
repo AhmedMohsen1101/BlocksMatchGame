@@ -10,7 +10,7 @@ public class Board : MonoBehaviour
     public GameObject[] Tile;
     private int counter;
 
-    [HideInInspector] public List<GameObject> Tiles = new List<GameObject>();
+     public List<GameObject> Tiles = new List<GameObject>();
 
     public void SetupBoard()
     {
@@ -25,11 +25,11 @@ public class Board : MonoBehaviour
                 GameObject clone = null;
                 if (counter % 2 == 0)
                 {
-                    clone = Instantiate(Tile[0], new Vector3(i * 0.557f, j * 0.557f), Quaternion.identity);
+                    clone = Instantiate(Tile[0], new Vector3(i , j), Quaternion.identity);
                 }
                 else if (counter % 2 == 1)
                 {
-                    clone = Instantiate(Tile[1], new Vector3(i * 0.557f, j * 0.557f), Quaternion.identity);
+                    clone = Instantiate(Tile[1], new Vector3(i, j), Quaternion.identity);
                 }
                 clone.transform.parent = this.transform;
                 clone.gameObject.name = "(" + i + "," + j + ")";
