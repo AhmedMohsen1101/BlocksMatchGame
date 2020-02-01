@@ -5,36 +5,44 @@ using UnityEngine;
 public class BlockElementDragHandler : MonoBehaviour, ISnappable
 {
     #region Drag Controls Entity
-    
+
+    [HideInInspector] public bool isTheTileEmpty;
+
     private Vector3 mOffset;
     private float mZCoord;
-    [HideInInspector] public bool isDragged; 
-    
+    private bool isDragged, isDropped;
+
     #endregion
 
     #region Parenting Logical Solution Entity
-    
+
     private Transform theParent;
 
     #endregion
 
-    public bool isTheTileEmpty;
     private SpriteRenderer spriteRenderer;
+    private BlockManager blockManager;
+    SnapZone snapZone;
     RaycastHit2D hit;
     LayerMask tileLayerMask;
-    private BlockManager blockManager;
+    Color currentBlockColor;
+
 
     private void Start()
     {
         tileLayerMask = LayerMask.GetMask("Tile");
         spriteRenderer = this.gameObject.GetComponent<SpriteRenderer>();
         blockManager = this.gameObject.GetComponentInParent<BlockManager>();
+        currentBlockColor = this.gameObject.GetComponent<RandomColor>().GetColor();
         spriteRenderer.sortingOrder = 2;
     }
 
     private void FixedUpdate()
     {
-        OnSnapping();
+        if (!isDropped && !isDragged)
+        {
+            OnSnapping();
+        }
     }
 
     /// <summary>
@@ -50,20 +58,29 @@ public class BlockElementDragHandler : MonoBehaviour, ISnappable
     /// </summary>
     public virtual void OnMouseDown()
     {
+        if (isDropped)
+        {
+            return;
+        }
         mZCoord = Camera.main.WorldToScreenPoint(transform.position).z;
         mOffset = transform.position - GetMousePos();
-       
+
         #region Parenting Logical Solution Entity
-        
+
         theParent = transform.parent;
         transform.parent = null;
         theParent.parent = transform;
 
         #endregion
+        isDragged = true;
         OnSnappingBegin();
     }
     public virtual void OnMouseDrag()
     {
+        if (isDropped)
+        {
+            return;
+        }
         #region Drag Controls Entity
 
         transform.position = GetMousePos() + mOffset;
@@ -75,7 +92,10 @@ public class BlockElementDragHandler : MonoBehaviour, ISnappable
 
     public virtual void OnMouseUp()
     {
-
+        if (isDropped)
+        {
+            return;
+        }
         #region Drag Controls Entity
 
         // Check the object if it on the right postion or not if make the snapzone code
@@ -94,7 +114,6 @@ public class BlockElementDragHandler : MonoBehaviour, ISnappable
         transform.parent = theParent;
 
         #endregion
-       
     }
 
     #region Drag Controls Entity
@@ -125,26 +144,55 @@ public class BlockElementDragHandler : MonoBehaviour, ISnappable
     {
         ScaleUpDown(1f);
         spriteRenderer.sortingOrder = 2;
+
+        //Check if that all tiles are touched from all blocks are empty
         if (blockManager.AllEmpty())
         {
-            this.transform.position = hit.collider.transform.position;
+            Drop();
         }
+        else
+        {
+            //return it to the it Space
+            blockManager.unSnapped = true;
+        }
+    }
+
+    #endregion
+
+    private void Unsnap()
+    {
+
+    }
+    private void Drop()
+    {
+        this.transform.position = hit.collider.transform.position;
+
+        for (int i = 0; i < blockManager.blocks.Length; i++)
+        {
+            blockManager.blocks[i].isDropped = true;
+            snapZone = blockManager.blocks[i].hit.collider.GetComponent<SnapZone>();
+            snapZone.SetBlockColor(currentBlockColor);
+            snapZone.isEmpty = false;
+        }
+        //To Generate new shape
+        EventManager.TriggerEvent("Generate", blockManager.startPosition);
     }
     private void CheckWithRaycast()
     {
         hit = Physics2D.Raycast(this.transform.position, -this.transform.forward, 5f, tileLayerMask);
         if (hit)
         {
-            //Debug.Log(hit.collider.name);
-            isTheTileEmpty = true;
+            snapZone = hit.collider.GetComponent<SnapZone>();
+            if (snapZone != null)
+            {
+                isTheTileEmpty = snapZone.isEmpty;
+            }
         }
         else
         {
-            //Debug.Log("Null");
             isTheTileEmpty = false;
         }
     }
-    #endregion
     private void ScaleUpDown(float value)
     {
         this.gameObject.transform.root.localScale = new Vector2(value, value);

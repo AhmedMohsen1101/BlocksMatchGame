@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Generator : Randomize
 {
@@ -16,16 +17,29 @@ public class Generator : Randomize
             RandamShape(position);
         }
     }
-    
+    private void OnEnable()
+    {
+        EventManager.StartListening("Generate", GenerateNewShape);
+    }
     public override void RandamShape(Vector3 position)
     {
         GenerateNewShape(position, RandomRotation());
     }
 
     //Generate New Shape
-    private void GenerateNewShape(Vector3 position, Quaternion rotation)
+    public void GenerateNewShape(Vector3 position, Quaternion rotation)
     {
         int random = Random.Range(0, boxPrefabs.Length);
         Instantiate(boxPrefabs[random], position, rotation);
+    }
+    public void GenerateNewShape(Vector3 position)
+    {
+        int random = Random.Range(0, boxPrefabs.Length);
+        Instantiate(boxPrefabs[random], position, RandomRotation());
+    }
+
+    private void OnDisable()
+    {
+        EventManager.StopListening("Generate", GenerateNewShape);
     }
 }

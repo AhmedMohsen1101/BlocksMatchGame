@@ -12,7 +12,7 @@ public class RandomColor : MonoBehaviour
         new Color(0, 255, 0),
         new Color(0, 0, 255),
     };
-
+    private Color blockColor;
     private SpriteRenderer spriteRenderer;
     void Start()
     {
@@ -24,7 +24,12 @@ public class RandomColor : MonoBehaviour
         for (int i = 0; i < 4; i++)
         {
             int colorNumber = Random.Range(0, 3);
+            blockColor = colors[colorNumber];
             spriteRenderer.color = colors[colorNumber];
         }
+    }
+    public Color GetColor()
+    {
+        return blockColor;
     }
 }

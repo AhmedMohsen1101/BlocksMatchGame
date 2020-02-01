@@ -10,14 +10,10 @@ public class Board : MonoBehaviour
     public GameObject[] Tile;
     private int counter;
 
-     public List<GameObject> Tiles = new List<GameObject>();
-
+    Dictionary<Vector2, GameObject> Tiles = new Dictionary<Vector2, GameObject>();
+    
     public void SetupBoard()
     {
-        if (Tiles.Count > 0)
-        {
-            ClearTiles();
-        }
         for (int i = 0; i < width; i++)
         {
             for (int j = 0; j < height; j++)
@@ -34,9 +30,9 @@ public class Board : MonoBehaviour
                 clone.transform.parent = this.transform;
                 clone.gameObject.name = "(" + i + "," + j + ")";
 
-                if (!Tiles.Contains(clone))
+                if (!Tiles.ContainsKey(new Vector2(i, j)))
                 {
-                    Tiles.Add(clone);
+                    Tiles.Add(new Vector2(i, j), clone);
                 }
                 counter++;
             }
@@ -44,12 +40,4 @@ public class Board : MonoBehaviour
         }
     }
 
-    public void ClearTiles()
-    {
-        for (int i = 0; i < Tiles.Count; i++)
-        {
-            Destroy(Tiles[i]);
-            Tiles.RemoveAt(i);
-        }
-    }
 }
