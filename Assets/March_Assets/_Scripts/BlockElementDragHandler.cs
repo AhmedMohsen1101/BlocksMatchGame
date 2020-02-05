@@ -8,9 +8,11 @@ public class BlockElementDragHandler : MonoBehaviour, ISnappable
 
     [HideInInspector] public bool isTheTileEmpty;
 
+    public Transform raycastPosition;
     private Vector3 mOffset;
     private float mZCoord;
-    private bool isDragged, isDropped;
+    [HideInInspector] public bool isDragged;
+    public bool isDropped = false;
 
     #endregion
 
@@ -25,10 +27,9 @@ public class BlockElementDragHandler : MonoBehaviour, ISnappable
     SnapZone snapZone;
     RaycastHit2D hit;
     LayerMask tileLayerMask;
-    Color currentBlockColor;
-
-
-    private void Start()
+    public Color currentBlockColor;
+    public Vector2 dropLocation;
+    private void OnEnable()
     {
         tileLayerMask = LayerMask.GetMask("Tile");
         spriteRenderer = this.gameObject.GetComponent<SpriteRenderer>();
@@ -39,9 +40,9 @@ public class BlockElementDragHandler : MonoBehaviour, ISnappable
 
     private void FixedUpdate()
     {
-        if (!isDropped && !isDragged)
+        if (!isDropped)
         {
-            OnSnapping();
+            //OnSnapping();
         }
     }
 
@@ -86,8 +87,6 @@ public class BlockElementDragHandler : MonoBehaviour, ISnappable
         transform.position = GetMousePos() + mOffset;
 
         #endregion
-
-        OnSnapping();
     }
 
     public virtual void OnMouseUp()
@@ -109,6 +108,10 @@ public class BlockElementDragHandler : MonoBehaviour, ISnappable
         //if all the blocks are ok and their opposite snapZones are empty so then will consider the 
         //dragged element as manager of the landing operation, and it will put himself in place first,
         //as he has became the temporary parent of his original parent.
+        for (int i = 0; i < blockManager.blocks.Length; i++)
+        {
+            blockManager.blocks[i].OnSnapping();
+        }
         OnSnapped();
         theParent.parent = null;
         transform.parent = theParent;
@@ -132,7 +135,7 @@ public class BlockElementDragHandler : MonoBehaviour, ISnappable
     public void OnSnappingBegin()
     {
         spriteRenderer.sortingOrder = 10;
-        ScaleUpDown(0.75f);
+        ScaleUpDown(0.7f);
     }
 
     public void OnSnapping()
@@ -158,35 +161,33 @@ public class BlockElementDragHandler : MonoBehaviour, ISnappable
     }
 
     #endregion
-
-    private void Unsnap()
-    {
-
-    }
     private void Drop()
     {
         this.transform.position = hit.collider.transform.position;
-
-        for (int i = 0; i < blockManager.blocks.Length; i++)
+        foreach (BlockElementDragHandler block in blockManager.blocks)
         {
-            blockManager.blocks[i].isDropped = true;
-            snapZone = blockManager.blocks[i].hit.collider.GetComponent<SnapZone>();
-            snapZone.SetBlockColor(currentBlockColor);
-            snapZone.isEmpty = false;
+            block.CheckWithRaycast();
+            block.isDropped = true;
+            block.dropLocation = block.snapZone.GetLocation();
+            block.snapZone.SetBlockColor(block.currentBlockColor);
+            block.snapZone.isEmpty = false;
         }
         //To Generate new shape
         EventManager.TriggerEvent("Generate", blockManager.startPosition);
     }
-    private void CheckWithRaycast()
+    public void CheckWithRaycast()
     {
-        hit = Physics2D.Raycast(this.transform.position, -this.transform.forward, 5f, tileLayerMask);
-        if (hit)
+        hit = Physics2D.Raycast(raycastPosition.position, raycastPosition.forward, 1f, tileLayerMask);
+        
+        if (hit.collider != null)
         {
             snapZone = hit.collider.GetComponent<SnapZone>();
-            if (snapZone != null)
-            {
-                isTheTileEmpty = snapZone.isEmpty;
-            }
+            //if (snapZone != null)
+            //{
+
+            //}
+            isTheTileEmpty = snapZone.isEmpty;
+
         }
         else
         {

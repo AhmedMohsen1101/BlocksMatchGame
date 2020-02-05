@@ -120,3 +120,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08ab384790ec9044384ec6f92d690cfb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isEmpty: 1
+  blockColor: {r: 0, g: 0, b: 0, a: 0}
+  Location: {x: 0, y: 0}

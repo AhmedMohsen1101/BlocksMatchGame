@@ -5,8 +5,8 @@ using UnityEngine;
 public class SnapZone : MonoBehaviour
 {
     public bool isEmpty = true;
-    private Color blockColor;
-    private Vector2 Location;
+    public Color blockColor;
+    public Vector2 Location;
 
     public void SetLocation(int width, int height)
     {

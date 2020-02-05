@@ -12,7 +12,6 @@ public class BlockManager : MonoBehaviour
         blocks = GetComponentsInChildren<BlockElementDragHandler>();
         startPosition = this.transform.position;
     }
-    
     public bool AllEmpty()
     {
         counter = 0;
@@ -43,4 +42,5 @@ public class BlockManager : MonoBehaviour
     {
         this.transform.position = Vector3.Lerp(this.transform.position, startPosition, 1f);
     }
+    
 }
