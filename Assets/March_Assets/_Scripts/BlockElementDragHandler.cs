@@ -24,13 +24,14 @@ public class BlockElementDragHandler : MonoBehaviour, ISnappable
 
     private SpriteRenderer spriteRenderer;
     private BlockManager blockManager;
-    SnapZone snapZone;
+    public SnapZone snapZone;
     RaycastHit2D hit;
     LayerMask tileLayerMask;
     public Color currentBlockColor;
     public Vector2 dropLocation;
     private void OnEnable()
     {
+        theParent = transform.parent;
         tileLayerMask = LayerMask.GetMask("Tile");
         spriteRenderer = this.gameObject.GetComponent<SpriteRenderer>();
         blockManager = this.gameObject.GetComponentInParent<BlockManager>();
@@ -68,7 +69,6 @@ public class BlockElementDragHandler : MonoBehaviour, ISnappable
 
         #region Parenting Logical Solution Entity
 
-        theParent = transform.parent;
         transform.parent = null;
         theParent.parent = transform;
 
@@ -115,7 +115,6 @@ public class BlockElementDragHandler : MonoBehaviour, ISnappable
         OnSnapped();
         theParent.parent = null;
         transform.parent = theParent;
-
         #endregion
     }
 
@@ -134,7 +133,7 @@ public class BlockElementDragHandler : MonoBehaviour, ISnappable
 
     public void OnSnappingBegin()
     {
-        spriteRenderer.sortingOrder = 10;
+        spriteRenderer.sortingOrder = 5;
         ScaleUpDown(0.7f);
     }
 
@@ -157,6 +156,7 @@ public class BlockElementDragHandler : MonoBehaviour, ISnappable
         {
             //return it to the it Space
             blockManager.unSnapped = true;
+            
         }
     }
 
@@ -169,10 +169,13 @@ public class BlockElementDragHandler : MonoBehaviour, ISnappable
             block.CheckWithRaycast();
             block.isDropped = true;
             block.dropLocation = block.snapZone.GetLocation();
-            block.snapZone.SetBlockColor(block.currentBlockColor);
+            block.snapZone.SetAttachedBlock(block);
             block.snapZone.isEmpty = false;
+            //block.transform.parent = block.snapZone.gameObject.transform;
+            
         }
         //To Generate new shape
+        //Destroy(blockManager.gameObject);
         EventManager.TriggerEvent("Generate", blockManager.startPosition);
     }
     public void CheckWithRaycast()

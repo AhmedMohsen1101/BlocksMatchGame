@@ -21,12 +21,9 @@ public class RandomColor : MonoBehaviour
     }
     public void SetBlockColor ()
     {
-        for (int i = 0; i < 4; i++)
-        {
-            int colorNumber = Random.Range(0, colors.Length);
-            blockColor = colors[colorNumber];
-            spriteRenderer.color = colors[colorNumber];
-        }
+        int colorNumber = Random.Range(0, colors.Length);
+        blockColor = colors[colorNumber];
+        spriteRenderer.color = colors[colorNumber];
     }
     public Color GetColor()
     {

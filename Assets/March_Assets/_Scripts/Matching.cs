@@ -6,6 +6,10 @@ public class Matching : MonoBehaviour
 {
     private BlockElementDragHandler blockHandler;
     Board board;
+
+    bool isMatched = false;
+
+    private Vector2 currentLocation;
     void Start()
     {
         blockHandler = this.gameObject.GetComponent<BlockElementDragHandler>();
@@ -16,19 +20,21 @@ public class Matching : MonoBehaviour
     {
         if (blockHandler.isDropped)
         {
-            //Bug
-            //Check All neighbour tiles
             GameObject tile = null;
-            board.Tiles.TryGetValue(blockHandler.dropLocation, out tile);
-            if (!tile)
-            {
-                Debug.Log("Null");
-            }
-            else
+            if (board.Tiles.TryGetValue(blockHandler.snapZone.Location, out tile))
             {
                 Debug.Log(tile.name);
             }
+            else
+            {
+                Debug.Log(null);
+            }
         }
     }
+    
+    private void CheckNeighbours()
+    {
+        //Up
 
+    }
 }

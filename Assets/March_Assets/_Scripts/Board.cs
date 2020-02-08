@@ -4,15 +4,17 @@ using UnityEngine;
 
 public class Board : MonoBehaviour
 {
-    [SerializeField] private float width = 12;
-    [SerializeField] private float height = 12;
+    [SerializeField] private int width = 12;
+    [SerializeField] private int height = 12;
 
     public GameObject[] Tile;
     private int counter;
 
-     public Dictionary<Vector2, GameObject> Tiles = new Dictionary<Vector2, GameObject>();
-    //public Dictionary<string, GameObject> Tiles = new Dictionary<string, GameObject>();
-
+    public Dictionary<Vector2, GameObject> Tiles = new Dictionary<Vector2, GameObject>();
+    private void Awake()
+    {
+        SetupBoard();
+    }
     public void SetupBoard()
     {
         Tiles.Clear();
@@ -23,29 +25,26 @@ public class Board : MonoBehaviour
                 GameObject clone = null;
                 if (counter % 2 == 0)
                 {
-                    clone = Instantiate(Tile[0], new Vector3(i , j), Quaternion.identity);
+                    clone = Instantiate(Tile[0], new Vector3(i, j), Quaternion.identity) as GameObject;
+
                 }
                 else if (counter % 2 == 1)
                 {
-                    clone = Instantiate(Tile[1], new Vector3(i, j), Quaternion.identity);
+                    clone = Instantiate(Tile[1], new Vector3(i, j), Quaternion.identity) as GameObject;
+
                 }
                 clone.transform.parent = this.transform;
                 clone.gameObject.name = "(" + i + "," + j + ")";
                 clone.GetComponent<SnapZone>().SetLocation(i, j);
-                 Tiles.Add(new Vector2(i, j), clone);
+               
+                Tiles.Add(new Vector2(i,j), clone);
                 counter++;
             }
             counter++;
         }
         Debug.Log(Tiles.Count);
     }
-   
-    public GameObject GetTile(Vector2 location)
-    {
-        GameObject tile = null;
-        Tiles.TryGetValue(location, out tile);
-        return tile;
-    }
+    GameObject tile = null;
 
-   
+ 
 }
