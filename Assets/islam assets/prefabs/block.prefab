@@ -175,6 +175,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97fb334af115385439c94c3014cbc1d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  blockColor: 0
+  colors:
+  - {r: 1, g: 0, b: 0, a: 1}
+  - {r: 1, g: 1, b: 0, a: 1}
+  - {r: 0, g: 1, b: 0, a: 1}
+  - {r: 1, g: 0.5390363, b: 0, a: 1}
+  currentColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &4151778105432832906
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -191,7 +198,8 @@ MonoBehaviour:
   raycastPosition: {fileID: 1792635488505963839}
   isDragged: 0
   isDropped: 0
-  currentBlockColor: {r: 0, g: 0, b: 0, a: 0}
+  snapZone: {fileID: 0}
+  currentBlockColor: 0
   dropLocation: {x: 0, y: 0}
 --- !u!114 &-5002139237754238203
 MonoBehaviour:
@@ -205,3 +213,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84201f1753df7fd4d9842792a415f00a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isMatched: 0

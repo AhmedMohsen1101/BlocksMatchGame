@@ -5,36 +5,68 @@ using UnityEngine;
 public class Matching : MonoBehaviour
 {
     private BlockElementDragHandler blockHandler;
-    Board board;
-
-    bool isMatched = false;
-
-    private Vector2 currentLocation;
-    void Start()
+    SnapZone snapZone;
+    public bool isMatched = false;
+    void OnEnable()
     {
         blockHandler = this.gameObject.GetComponent<BlockElementDragHandler>();
-        board = GameObject.FindObjectOfType<Board>();
     }
+   
+    private void OnMouseDown()
+    {        
+        if (!isMatched)
+        {
+            snapZone = blockHandler.snapZone;
+            MatchingManager.currentMatchingColor = blockHandler.currentBlockColor;
+            StartMatching(snapZone);
 
-    private void OnMouseUp()
+        }
+    }
+    private void OnMouseDrag()
     {
         if (blockHandler.isDropped)
         {
-            GameObject tile = null;
-            if (board.Tiles.TryGetValue(blockHandler.snapZone.Location, out tile))
+
+        }
+        
+    }
+    private void OnMouseUp()
+    {
+        if (MatchingManager.Matching())
+        {
+            isMatched = true;
+        }
+        else
+        {
+            isMatched = false;
+        }
+    }
+    public void StartMatching(SnapZone snapZone)
+    {
+        if (blockHandler.isDropped)
+        { 
+            if(snapZone != null && snapZone.block != null)
             {
-                Debug.Log(tile.name);
+                MatchingManager.AddMatchedBlocks(snapZone.block);
             }
-            else
+            if (snapZone.upSnapZone != null && snapZone.upSnapZone.block != null)
             {
-                Debug.Log(null);
+                MatchingManager.AddMatchedBlocks(snapZone.upSnapZone.block);
+            }
+            if (snapZone.downSnapZone != null && snapZone.downSnapZone.block != null)
+            {
+                MatchingManager.AddMatchedBlocks(snapZone.downSnapZone.block);
+            }
+            if (snapZone.rightSnapZone != null && snapZone.rightSnapZone.block != null)
+            {
+                MatchingManager.AddMatchedBlocks(snapZone.rightSnapZone.block);
+            }
+            if (snapZone.leftSnapZone != null && snapZone.leftSnapZone.block != null)
+            {
+                MatchingManager.AddMatchedBlocks(snapZone.leftSnapZone.block);
             }
         }
     }
-    
-    private void CheckNeighbours()
-    {
-        //Up
+   
 
-    }
 }

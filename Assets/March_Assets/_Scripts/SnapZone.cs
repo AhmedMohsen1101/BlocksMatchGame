@@ -9,7 +9,6 @@ public class SnapZone : MonoBehaviour
     public Vector2 Location;
     private RaycastHit2D[] up, down, left, right;
     public SnapZone upSnapZone, downSnapZone, leftSnapZone, rightSnapZone;
-
     int frameCounter;
     
     private void FixedUpdate()
@@ -62,9 +61,5 @@ public class SnapZone : MonoBehaviour
     public void SetAttachedBlock(BlockElementDragHandler b)
     {
         block = b;
-    }
-    public Color GetBlockColor()
-    {
-        return block.currentBlockColor;
     }
 }

@@ -2,17 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
+public enum BlockColor
+{
+    Black,
+    Red,
+    Green,
+    Yellow,
+    Orange,
+}
 public class RandomColor : MonoBehaviour
 {
-    private Color[] colors =  
-    {
-        new Color(255, 0, 0),
-        new Color(255, 255, 0),
-        new Color(0, 255, 0),
-        new Color(255, 110, 0),
-    };
-    private Color blockColor;
+    public BlockColor blockColor;
+    public Color[] colors;    
+    public Color currentColor;
     private SpriteRenderer spriteRenderer;
     void OnEnable()
     {
@@ -22,11 +24,23 @@ public class RandomColor : MonoBehaviour
     public void SetBlockColor ()
     {
         int colorNumber = Random.Range(0, colors.Length);
-        blockColor = colors[colorNumber];
+        currentColor = colors[colorNumber];
+        if(colorNumber == 0)
+        {
+            blockColor = BlockColor.Red;
+        }
+        else if (colorNumber == 1)
+        {
+            blockColor = BlockColor.Yellow;
+        }
+        else if (colorNumber == 2)
+        {
+            blockColor = BlockColor.Green;
+        }
+        else if (colorNumber == 2)
+        {
+            blockColor = BlockColor.Orange;
+        }
         spriteRenderer.color = colors[colorNumber];
-    }
-    public Color GetColor()
-    {
-        return blockColor;
     }
 }

@@ -27,7 +27,7 @@ public class BlockElementDragHandler : MonoBehaviour, ISnappable
     public SnapZone snapZone;
     RaycastHit2D hit;
     LayerMask tileLayerMask;
-    public Color currentBlockColor;
+    public BlockColor currentBlockColor;
     public Vector2 dropLocation;
     private void OnEnable()
     {
@@ -35,7 +35,7 @@ public class BlockElementDragHandler : MonoBehaviour, ISnappable
         tileLayerMask = LayerMask.GetMask("Tile");
         spriteRenderer = this.gameObject.GetComponent<SpriteRenderer>();
         blockManager = this.gameObject.GetComponentInParent<BlockManager>();
-        currentBlockColor = this.gameObject.GetComponent<RandomColor>().GetColor();
+        currentBlockColor = this.gameObject.GetComponent<RandomColor>().blockColor;
         spriteRenderer.sortingOrder = 2;
     }
 
@@ -58,7 +58,7 @@ public class BlockElementDragHandler : MonoBehaviour, ISnappable
     /// So the process is to land each part of the plane on the ground by only one script which is the currently dragged object.
     /// Or the driver of the car the parent of "The Parent"
     /// </summary>
-    public virtual void OnMouseDown()
+    public void OnMouseDown()
     {
         if (isDropped)
         {
@@ -76,7 +76,7 @@ public class BlockElementDragHandler : MonoBehaviour, ISnappable
         isDragged = true;
         OnSnappingBegin();
     }
-    public virtual void OnMouseDrag()
+    public void OnMouseDrag()
     {
         if (isDropped)
         {
@@ -89,7 +89,7 @@ public class BlockElementDragHandler : MonoBehaviour, ISnappable
         #endregion
     }
 
-    public virtual void OnMouseUp()
+    public void OnMouseUp()
     {
         if (isDropped)
         {

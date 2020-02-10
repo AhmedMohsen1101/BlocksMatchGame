@@ -13,7 +13,7 @@ public class Board : MonoBehaviour
     public Dictionary<Vector2, GameObject> Tiles = new Dictionary<Vector2, GameObject>();
     private void Awake()
     {
-        SetupBoard();
+        //SetupBoard();
     }
     public void SetupBoard()
     {
@@ -44,7 +44,4 @@ public class Board : MonoBehaviour
         }
         Debug.Log(Tiles.Count);
     }
-    GameObject tile = null;
-
- 
 }
