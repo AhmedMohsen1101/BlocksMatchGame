@@ -134,7 +134,7 @@ public class BlockElementDragHandler : MonoBehaviour, ISnappable
     public void OnSnappingBegin()
     {
         spriteRenderer.sortingOrder = 5;
-        ScaleUpDown(0.7f);
+        ScaleUpDown(0.8f);
     }
 
     public void OnSnapping()
