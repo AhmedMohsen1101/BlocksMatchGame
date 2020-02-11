@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class SnapZone : MonoBehaviour
 {
@@ -10,7 +8,15 @@ public class SnapZone : MonoBehaviour
     private RaycastHit2D[] up, down, left, right;
     public SnapZone upSnapZone, downSnapZone, leftSnapZone, rightSnapZone;
     int frameCounter;
-    
+    private SpriteRenderer sr;
+    Color StartTileColor;
+    BlockManager TriggeredBlockManager;
+    private void OnEnable()
+    {
+        sr = this.gameObject.GetComponent<SpriteRenderer>();
+        StartTileColor = sr.color;
+    }
+
     private void FixedUpdate()
     {
         if (frameCounter <= 10)
@@ -18,8 +24,54 @@ public class SnapZone : MonoBehaviour
             frameCounter++;
             GetNeighbours();
         }
-        
     }
+
+
+    private void OnTriggerEnter2D(Collider2D col)
+    {
+        TriggeredBlockManager = col.GetComponentInParent<BlockManager>();
+    }
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (block != null)
+        {
+            TriggeredBlockManager = null;
+            ResetOrginalColor();
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        TriggeredBlockManager = null;
+        ResetOrginalColor();
+    }
+    #region Hover
+    public void Hover(BlockManager bm)
+    {
+        if (bm.AllEmpty())
+        {
+            HoverGreen();
+        }
+        else
+        {
+            HoverRed();
+        }
+    }
+    public void HoverGreen()
+    {
+        sr.color = new Color(0, 1, 0, 1);
+    }
+    public void HoverRed()
+    {
+        sr.color = new Color(1, 0, 0, 1);
+    }
+    public void ResetOrginalColor()
+    {
+        sr.color = StartTileColor;
+    }
+    #endregion
+    #region GetNeighbours
+
     private void GetNeighbours()
     {
         up = Physics2D.RaycastAll(this.transform.position, transform.up, 0.6f);
@@ -49,7 +101,8 @@ public class SnapZone : MonoBehaviour
         }
         return null;
     }
-
+    #endregion
+    #region Setter Getter
     public void SetLocation(int width, int height)
     {
         Location = new Vector2(width, height);
@@ -62,4 +115,5 @@ public class SnapZone : MonoBehaviour
     {
         block = b;
     }
+    #endregion
 }

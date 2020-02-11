@@ -85,7 +85,7 @@ public class BlockElementDragHandler : MonoBehaviour, ISnappable
         #region Drag Controls Entity
 
         transform.position = GetMousePos() + mOffset;
-
+        Dragging();
         #endregion
     }
 
@@ -171,12 +171,24 @@ public class BlockElementDragHandler : MonoBehaviour, ISnappable
             block.dropLocation = block.snapZone.GetLocation();
             block.snapZone.SetAttachedBlock(block);
             block.snapZone.isEmpty = false;
+            block.snapZone.ResetOrginalColor();
             //block.transform.parent = block.snapZone.gameObject.transform;
-            
+
         }
         //To Generate new shape
         //Destroy(blockManager.gameObject);
         EventManager.TriggerEvent("Generate", blockManager.startPosition);
+    }
+    private void Dragging()
+    {
+        foreach (BlockElementDragHandler block in blockManager.blocks)
+        {
+            block.CheckWithRaycast();
+            if (block.snapZone != null)
+            {
+                block.snapZone.Hover(this.blockManager);
+            }
+        }
     }
     public void CheckWithRaycast()
     {
@@ -185,12 +197,7 @@ public class BlockElementDragHandler : MonoBehaviour, ISnappable
         if (hit.collider != null)
         {
             snapZone = hit.collider.GetComponent<SnapZone>();
-            //if (snapZone != null)
-            //{
-
-            //}
             isTheTileEmpty = snapZone.isEmpty;
-
         }
         else
         {
