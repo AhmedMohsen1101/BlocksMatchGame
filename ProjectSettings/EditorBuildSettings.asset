@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
-    guid: 2cda990e2423bbf4892e6590ba056729
+    path: Assets/Farouk_Assets/Scenes_/UI_Scene.unity
+    guid: df76eee028290724da0bb786cff05a3e
+  - enabled: 1
+    path: Assets/March_Assets/_Scenes/Level01.unity
+    guid: cff8cca09f22e6f4f9e373266e1f2df6
   m_configObjects: {}
