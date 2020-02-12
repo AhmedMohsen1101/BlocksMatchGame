@@ -37,7 +37,7 @@ public class RandomColor : MonoBehaviour
         {
             blockColor = BlockColor.Green;
         }
-        else if (colorNumber == 2)
+        else if (colorNumber == 3)
         {
             blockColor = BlockColor.Orange;
         }

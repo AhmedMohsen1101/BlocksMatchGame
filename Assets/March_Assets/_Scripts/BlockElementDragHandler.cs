@@ -64,6 +64,10 @@ public class BlockElementDragHandler : MonoBehaviour, ISnappable
         {
             return;
         }
+        foreach (BlockElementDragHandler block in blockManager.blocks)
+        {
+            block.snapZone = null;
+        }
         mZCoord = Camera.main.WorldToScreenPoint(transform.position).z;
         mOffset = transform.position - GetMousePos();
 
@@ -201,6 +205,14 @@ public class BlockElementDragHandler : MonoBehaviour, ISnappable
         }
         else
         {
+            foreach (BlockElementDragHandler block in blockManager.blocks)
+            {
+                if (block.snapZone != null )
+                {
+                    block.snapZone.ResetOrginalColor();
+                    block.snapZone = null;
+                }
+            }
             isTheTileEmpty = false;
         }
     }

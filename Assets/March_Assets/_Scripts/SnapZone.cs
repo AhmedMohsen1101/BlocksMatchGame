@@ -24,6 +24,10 @@ public class SnapZone : MonoBehaviour
             frameCounter++;
             GetNeighbours();
         }
+        if (block == null)
+        {
+            ResetOrginalColor();
+        }
     }
 
 
@@ -74,10 +78,10 @@ public class SnapZone : MonoBehaviour
 
     private void GetNeighbours()
     {
-        up = Physics2D.RaycastAll(this.transform.position, transform.up, 0.6f);
-        down = Physics2D.RaycastAll(this.transform.position, -transform.up, 0.6f);
-        right = Physics2D.RaycastAll(this.transform.position, transform.right, 0.6f);
-        left = Physics2D.RaycastAll(this.transform.position, -transform.right, 0.6f);
+        up = Physics2D.RaycastAll(this.transform.position, transform.up, 0.9f);
+        down = Physics2D.RaycastAll(this.transform.position, -transform.up, 0.9f);
+        right = Physics2D.RaycastAll(this.transform.position, transform.right, 0.9f);
+        left = Physics2D.RaycastAll(this.transform.position, -transform.right, 0.9f);
 
         
         upSnapZone = CheckRaycastHitArray(up);

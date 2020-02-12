@@ -9,15 +9,12 @@ public class Board : MonoBehaviour
 
     public GameObject[] Tile;
     private int counter;
-
-    public Dictionary<Vector2, GameObject> Tiles = new Dictionary<Vector2, GameObject>();
     private void Awake()
     {
         //SetupBoard();
     }
     public void SetupBoard()
     {
-        Tiles.Clear();
         for (int i = 0; i < width; i++)
         {
             for (int j = 0; j < height; j++)
@@ -36,12 +33,9 @@ public class Board : MonoBehaviour
                 clone.transform.parent = this.transform;
                 clone.gameObject.name = "(" + i + "," + j + ")";
                 clone.GetComponent<SnapZone>().SetLocation(i, j);
-               
-                Tiles.Add(new Vector2(i,j), clone);
                 counter++;
             }
             counter++;
         }
-        Debug.Log(Tiles.Count);
     }
 }
